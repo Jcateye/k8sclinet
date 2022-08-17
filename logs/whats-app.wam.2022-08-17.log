@@ -1,0 +1,2 @@
+2022-08-17 09:44:44.771 WARN [http-nio-8180-exec-1]io.kubernetes.client.util.ModelMapper.initModelMap:382 -No kubernetes api model classes found from classloader, this may break automatic api discovery
+2022-08-17 09:55:21.475 WARN [http-nio-8180-exec-4]io.kubernetes.client.util.ModelMapper.initModelMap:382 -No kubernetes api model classes found from classloader, this may break automatic api discovery

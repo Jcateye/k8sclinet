@@ -1,0 +1,910 @@
+2022-08-17 09:44:34.168 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication v0.0.1-SNAPSHOT on xuxunjian with PID 9728 (C:\Users\dell\IdeaProjects\k8sclient\target\client-0.0.1-SNAPSHOT.jar started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-17 09:44:34.170 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-17 09:44:34.171 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-17 09:44:35.557 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8180 (http)
+2022-08-17 09:44:35.571 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8180"]
+2022-08-17 09:44:35.572 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-17 09:44:35.572 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-17 09:44:35.636 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-17 09:44:35.636 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 1427 ms
+2022-08-17 09:44:35.945 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:49 ----k8s connected----
+ C:\Users\dell\.kube\config
+2022-08-17 09:44:36.392 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8180"]
+2022-08-17 09:44:36.432 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8180 (http) with context path ''
+2022-08-17 09:44:36.646 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 3.005 seconds (JVM running for 3.384)
+2022-08-17 09:44:44.633 INFO [http-nio-8180-exec-1]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-08-17 09:44:44.634 INFO [http-nio-8180-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2022-08-17 09:44:44.643 INFO [http-nio-8180-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 8 ms
+2022-08-17 09:44:44.764 INFO [http-nio-8180-exec-1]com.nxtele.k8s.client.service.impl.AutoDeployServiceImpl.parseFile:147 -config yaml -> 
+apiVersion: v1
+kind: Namespace 
+metadata:
+  name: testmy # todo 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: whatsapp-config
+  namespace: testmy # var namespace string
+data:
+  wa-db-engine: 'MYSQL'
+  wa-db-hostname: '192.168.49.2'  # var,mysql svc. expose ip; minikube ip; k8s svc ip
+  wa-db-port: '31518'             # var,mysql svc.
+  wa-db-username: 'root'
+  wa-db-password: 'testpass'
+  wa-db-connection-idle-timeout: '180000'
+  wa-db-name-prefix: 'test_01_' # var, prefix only,
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: media-volume-01  # var，PV不隔�?
+  namespace: testmy # var
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/opt/whatsapp/wamedia/testmy"  # mount dir
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-volume-claim  
+  namespace: testmy # var
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: whatsapp-coreapp-autoscaler
+  namespace: testmy # var
+spec:
+  maxReplicas: 3
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: whatsapp-coreapp-deployment
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whatsapp-coreapp-service
+  namespace: testmy # var
+spec:
+  clusterIP: None
+  ports:
+  - port: 6250
+    targetPort: 6250
+    protocol: TCP
+    name: messaging
+  - port: 6251
+    targetPort: 6251
+    protocol: TCP
+    name: contacts
+  - port: 6252
+    targetPort: 6252
+    protocol: TCP
+    name: control
+  - port: 6253
+    targetPort: 6253
+    protocol: TCP
+    name: healthcheck
+  selector:
+    name: whatsapp-coreapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-coreapp-deployment
+  namespace: testmy # var
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: whatsapp-coreapp
+  template:
+    metadata:
+      labels:
+        name: whatsapp-coreapp
+    spec:
+      restartPolicy: "Always"
+      containers:
+      - name: whatsapp-coreapp
+        image: docker.whatsapp.biz/coreapp:v2.41.2
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory : 128Mi
+          requests:
+            cpu: "0.15"
+            memory : 128Mi
+        ports:
+        - containerPort: 6250
+          protocol: TCP
+          name: messaging
+        - containerPort: 6251
+          protocol: TCP
+          name: contacts
+        - containerPort: 6252
+          protocol: TCP
+          name: control
+        - containerPort: 6253
+          protocol: TCP
+          name: healthcheck
+        env:
+        - name: WA_TCP_LISTEN_ADDRESS
+          value: 'any'
+        - name: WA_APP_MULTICONNECT
+          value: '1'
+        - name: WA_CONFIG_ON_DB
+          value: '1'
+        - name: COREAPP_EXTERNAL_PORTS
+          value: '6250,6251,6252,6253'
+        - name: WA_DB_NAME_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-name-prefix
+        - name: WA_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-engine
+        - name: WA_DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-hostname
+        - name: WA_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-port
+        - name: WA_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-username
+        - name: WA_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-password
+        - name: WA_DB_CONNECTION_IDLE_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-connection-idle-timeout
+        - name: COREAPP_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        volumeMounts:
+        - name: whatsapp-media
+          mountPath: /usr/local/wamedia
+        securityContext:
+          capabilities:
+            drop:
+              - MKNOD
+      volumes:
+      - name: whatsapp-media
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: whatsapp-master-autoscaler
+  namespace: testmy # var
+spec:
+  maxReplicas: 3
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: whatsapp-master-deployment
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whatsapp-master-service
+  namespace: testmy
+spec:
+  clusterIP: None
+  ports:
+  - port: 6250
+    targetPort: 6250
+    protocol: TCP
+    name: messaging
+  - port: 6251
+    targetPort: 6251
+    protocol: TCP
+    name: contacts
+  - port: 6252
+    targetPort: 6252
+    protocol: TCP
+    name: control
+  - port: 6253
+    targetPort: 6253
+    protocol: TCP
+    name: healthcheck
+  selector:
+    name: whatsapp-master
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-master-deployment
+  namespace: testmy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: whatsapp-master
+  template:
+    metadata:
+      labels:
+        name: whatsapp-master
+    spec:
+      restartPolicy: "Always"
+      containers:
+      - name: whatsapp-master
+        image: docker.whatsapp.biz/coreapp:v2.41.2
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: "0.15"
+            memory: 128Mi
+        ports:
+        - containerPort: 6250
+          protocol: TCP
+          name: messaging
+        - containerPort: 6251
+          protocol: TCP
+          name: contacts
+        - containerPort: 6252
+          protocol: TCP
+          name: control
+        - containerPort: 6253
+          protocol: TCP
+          name: healthcheck
+        env:
+        - name: WA_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-engine
+        - name: WA_DB_NAME_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-name-prefix
+        - name: WA_TCP_LISTEN_ADDRESS
+          value: 'any'
+        - name: WA_APP_MULTICONNECT
+          value: '1'
+        - name: WA_CONFIG_ON_DB
+          value: '1'
+        - name: COREAPP_EXTERNAL_PORTS
+          value: '6250,6251,6252,6253'
+        - name: WA_MASTER_NODE
+          value: '1'
+        - name: WA_DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-hostname
+        - name: WA_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-port
+        - name: WA_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-username
+        - name: WA_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-password
+        - name: COREAPP_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        volumeMounts:
+        - name: whatsapp-media
+          mountPath: /usr/local/wamedia
+        securityContext:
+          capabilities:
+            drop:
+              - MKNOD
+      volumes:
+      - name: whatsapp-media
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: whatsapp-web-autoscaler
+  namespace: testmy
+spec:
+  maxReplicas: 3
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: whatsapp-web-deployment
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whatsapp-web-service
+  namespace: testmy
+spec:
+  type: NodePort
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: web
+  selector:
+    name: whatsapp-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-web-deployment
+  namespace: testmy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: whatsapp-web
+  template:
+    metadata:
+      labels:
+        name: whatsapp-web
+    spec:
+      restartPolicy: "Always"
+      containers:
+      - name: whatsapp-web
+        image: docker.whatsapp.biz/web:v2.41.2
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory : 128Mi
+          requests:
+            cpu: "0.15"
+            memory : 128Mi
+        ports:
+        - containerPort: 443
+          protocol: TCP
+          name: web
+        env:
+        - name: WA_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-engine
+        - name: WA_DB_NAME_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-name-prefix
+        - name: WA_APP_MULTICONNECT
+          value: '1'
+        - name: WA_DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-hostname
+        - name: WA_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-port
+        - name: WA_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-username
+        - name: WA_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-password
+        - name: WA_WEB_SERVERNAME
+          value: 'whatsapp-web-service'
+        volumeMounts:
+        - name: whatsapp-media
+          mountPath: /usr/local/wamedia
+        securityContext:
+          capabilities:
+            drop:
+              - MKNOD
+      volumes:
+      - name: whatsapp-media
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+
+
+
+
+2022-08-17 09:44:44.771 INFO [http-nio-8180-exec-1]io.kubernetes.client.util.ModelMapper.getClassNamesFromPackage:448 -Loading classes from jar /C:/Users/dell/IdeaProjects/k8sclient/target/client-0.0.1-SNAPSHOT.jar
+2022-08-17 09:44:44.771 WARN [http-nio-8180-exec-1]io.kubernetes.client.util.ModelMapper.initModelMap:382 -No kubernetes api model classes found from classloader, this may break automatic api discovery
+2022-08-17 09:44:44.773 INFO [http-nio-8180-exec-1]com.nxtele.k8s.client.service.impl.AutoDeployServiceImpl.writeConfigFiles:187 -create config file:C:\Users\dell\Documents\Downloads\whats-test\config-testmy\testtestmy.yaml
+2022-08-17 09:55:06.757 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication v0.0.1-SNAPSHOT on xuxunjian with PID 5708 (C:\Users\dell\IdeaProjects\k8sclient\target\client-0.0.1-SNAPSHOT.jar started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-17 09:55:06.759 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-17 09:55:06.759 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-17 09:55:08.097 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8180 (http)
+2022-08-17 09:55:08.108 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8180"]
+2022-08-17 09:55:08.109 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-17 09:55:08.109 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-17 09:55:08.167 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-17 09:55:08.167 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 1370 ms
+2022-08-17 09:55:08.444 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:49 ----k8s connected----
+ C:\Users\dell\.kube\config
+2022-08-17 09:55:08.869 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8180"]
+2022-08-17 09:55:08.918 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8180 (http) with context path ''
+2022-08-17 09:55:09.093 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 2.846 seconds (JVM running for 3.226)
+2022-08-17 09:55:21.372 INFO [http-nio-8180-exec-4]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-08-17 09:55:21.373 INFO [http-nio-8180-exec-4]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2022-08-17 09:55:21.378 INFO [http-nio-8180-exec-4]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 4 ms
+2022-08-17 09:55:21.456 INFO [http-nio-8180-exec-4]com.nxtele.k8s.client.service.impl.AutoDeployServiceImpl.parseFile:147 -config yaml -> 
+apiVersion: v1
+kind: Namespace 
+metadata:
+  name: testmy # todo 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: whatsapp-config
+  namespace: testmy # var namespace string
+data:
+  wa-db-engine: 'MYSQL'
+  wa-db-hostname: '192.168.49.2'  # var,mysql svc. expose ip; minikube ip; k8s svc ip
+  wa-db-port: '31518'             # var,mysql svc.
+  wa-db-username: 'root'
+  wa-db-password: 'testpass'
+  wa-db-connection-idle-timeout: '180000'
+  wa-db-name-prefix: 'test_01_' # var, prefix only,
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: media-volume-01  # var，PV不隔�?
+  namespace: testmy # var
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/opt/whatsapp/wamedia/testmy"  # mount dir
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-volume-claim  
+  namespace: testmy # var
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: whatsapp-coreapp-autoscaler
+  namespace: testmy # var
+spec:
+  maxReplicas: 3
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: whatsapp-coreapp-deployment
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whatsapp-coreapp-service
+  namespace: testmy # var
+spec:
+  clusterIP: None
+  ports:
+  - port: 6250
+    targetPort: 6250
+    protocol: TCP
+    name: messaging
+  - port: 6251
+    targetPort: 6251
+    protocol: TCP
+    name: contacts
+  - port: 6252
+    targetPort: 6252
+    protocol: TCP
+    name: control
+  - port: 6253
+    targetPort: 6253
+    protocol: TCP
+    name: healthcheck
+  selector:
+    name: whatsapp-coreapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-coreapp-deployment
+  namespace: testmy # var
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: whatsapp-coreapp
+  template:
+    metadata:
+      labels:
+        name: whatsapp-coreapp
+    spec:
+      restartPolicy: "Always"
+      containers:
+      - name: whatsapp-coreapp
+        image: docker.whatsapp.biz/coreapp:v2.41.2
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory : 128Mi
+          requests:
+            cpu: "0.15"
+            memory : 128Mi
+        ports:
+        - containerPort: 6250
+          protocol: TCP
+          name: messaging
+        - containerPort: 6251
+          protocol: TCP
+          name: contacts
+        - containerPort: 6252
+          protocol: TCP
+          name: control
+        - containerPort: 6253
+          protocol: TCP
+          name: healthcheck
+        env:
+        - name: WA_TCP_LISTEN_ADDRESS
+          value: 'any'
+        - name: WA_APP_MULTICONNECT
+          value: '1'
+        - name: WA_CONFIG_ON_DB
+          value: '1'
+        - name: COREAPP_EXTERNAL_PORTS
+          value: '6250,6251,6252,6253'
+        - name: WA_DB_NAME_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-name-prefix
+        - name: WA_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-engine
+        - name: WA_DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-hostname
+        - name: WA_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-port
+        - name: WA_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-username
+        - name: WA_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-password
+        - name: WA_DB_CONNECTION_IDLE_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-connection-idle-timeout
+        - name: COREAPP_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        volumeMounts:
+        - name: whatsapp-media
+          mountPath: /usr/local/wamedia
+        securityContext:
+          capabilities:
+            drop:
+              - MKNOD
+      volumes:
+      - name: whatsapp-media
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: whatsapp-master-autoscaler
+  namespace: testmy # var
+spec:
+  maxReplicas: 3
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: whatsapp-master-deployment
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whatsapp-master-service
+  namespace: testmy
+spec:
+  clusterIP: None
+  ports:
+  - port: 6250
+    targetPort: 6250
+    protocol: TCP
+    name: messaging
+  - port: 6251
+    targetPort: 6251
+    protocol: TCP
+    name: contacts
+  - port: 6252
+    targetPort: 6252
+    protocol: TCP
+    name: control
+  - port: 6253
+    targetPort: 6253
+    protocol: TCP
+    name: healthcheck
+  selector:
+    name: whatsapp-master
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-master-deployment
+  namespace: testmy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: whatsapp-master
+  template:
+    metadata:
+      labels:
+        name: whatsapp-master
+    spec:
+      restartPolicy: "Always"
+      containers:
+      - name: whatsapp-master
+        image: docker.whatsapp.biz/coreapp:v2.41.2
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: "0.15"
+            memory: 128Mi
+        ports:
+        - containerPort: 6250
+          protocol: TCP
+          name: messaging
+        - containerPort: 6251
+          protocol: TCP
+          name: contacts
+        - containerPort: 6252
+          protocol: TCP
+          name: control
+        - containerPort: 6253
+          protocol: TCP
+          name: healthcheck
+        env:
+        - name: WA_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-engine
+        - name: WA_DB_NAME_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-name-prefix
+        - name: WA_TCP_LISTEN_ADDRESS
+          value: 'any'
+        - name: WA_APP_MULTICONNECT
+          value: '1'
+        - name: WA_CONFIG_ON_DB
+          value: '1'
+        - name: COREAPP_EXTERNAL_PORTS
+          value: '6250,6251,6252,6253'
+        - name: WA_MASTER_NODE
+          value: '1'
+        - name: WA_DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-hostname
+        - name: WA_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-port
+        - name: WA_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-username
+        - name: WA_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-password
+        - name: COREAPP_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        volumeMounts:
+        - name: whatsapp-media
+          mountPath: /usr/local/wamedia
+        securityContext:
+          capabilities:
+            drop:
+              - MKNOD
+      volumes:
+      - name: whatsapp-media
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: whatsapp-web-autoscaler
+  namespace: testmy
+spec:
+  maxReplicas: 3
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: whatsapp-web-deployment
+  targetCPUUtilizationPercentage: 60
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whatsapp-web-service
+  namespace: testmy
+spec:
+  type: NodePort
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: web
+  selector:
+    name: whatsapp-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whatsapp-web-deployment
+  namespace: testmy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: whatsapp-web
+  template:
+    metadata:
+      labels:
+        name: whatsapp-web
+    spec:
+      restartPolicy: "Always"
+      containers:
+      - name: whatsapp-web
+        image: docker.whatsapp.biz/web:v2.41.2
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory : 128Mi
+          requests:
+            cpu: "0.15"
+            memory : 128Mi
+        ports:
+        - containerPort: 443
+          protocol: TCP
+          name: web
+        env:
+        - name: WA_DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-engine
+        - name: WA_DB_NAME_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-name-prefix
+        - name: WA_APP_MULTICONNECT
+          value: '1'
+        - name: WA_DB_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-hostname
+        - name: WA_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-port
+        - name: WA_DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-username
+        - name: WA_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: whatsapp-config
+              key: wa-db-password
+        - name: WA_WEB_SERVERNAME
+          value: 'whatsapp-web-service'
+        volumeMounts:
+        - name: whatsapp-media
+          mountPath: /usr/local/wamedia
+        securityContext:
+          capabilities:
+            drop:
+              - MKNOD
+      volumes:
+      - name: whatsapp-media
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+
+
+
+
+2022-08-17 09:55:21.459 INFO [http-nio-8180-exec-4]com.nxtele.k8s.client.service.impl.AutoDeployServiceImpl.writeConfigFiles:187 -create config file:C:\Users\dell\Documents\Downloads\whats-test\config-testmy\testtestmy.yaml
+2022-08-17 09:55:21.474 INFO [http-nio-8180-exec-4]io.kubernetes.client.util.ModelMapper.getClassNamesFromPackage:448 -Loading classes from jar /C:/Users/dell/IdeaProjects/k8sclient/target/client-0.0.1-SNAPSHOT.jar
+2022-08-17 09:55:21.475 WARN [http-nio-8180-exec-4]io.kubernetes.client.util.ModelMapper.initModelMap:382 -No kubernetes api model classes found from classloader, this may break automatic api discovery

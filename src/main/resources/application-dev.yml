@@ -1,0 +1,17 @@
+server:
+  port: 8180
+
+logging:
+  level:
+    com.nxtele.k8s.client: debug
+  config: classpath:logback-spring.xml
+
+k8s:
+  auto:
+    kube-config: "C:\\Users\\dell\\.kube\\config"
+    base-path: "http://localhost:8080"
+    config-path: "C:\\Users\\dell\\Documents\\Downloads\\whats-test"
+    service-prefix: test
+    env:
+      testvalhe: "333"
+      testvalhe2: "333"

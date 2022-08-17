@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: whats-app-pro
+
+swagger:
+  production: false
+  basic:
+    enable: false
+    username: root
+    password: root
+
+k8s:
+  auto:
+    base-path: "http://localhost:8080"
+    config-path: "C:\\Users\\dell\\Documents\\Downloads\\k8s-config"
+    service-prefix: test
+    env:
+      testvalhe: "333"
+      testvalhe2: "333"
+

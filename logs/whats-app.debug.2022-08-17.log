@@ -1,0 +1,2 @@
+2022-08-17 09:44:34.170 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-17 09:55:06.759 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE

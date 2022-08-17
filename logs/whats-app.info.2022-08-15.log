@@ -1,0 +1,139 @@
+2022-08-15 11:59:49.062 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 12:00:29.129 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 12:00:44.038 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 12:01:38.510 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 12:01:38.532 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication on xuxunjian with PID 29064 (C:\Users\dell\IdeaProjects\k8sclient\target\classes started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 12:01:38.532 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 12:01:39.144 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8087 (http)
+2022-08-15 12:01:39.149 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8087"]
+2022-08-15 12:01:39.150 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-15 12:01:39.150 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-15 12:01:39.224 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-15 12:01:39.224 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 670 ms
+2022-08-15 12:01:39.555 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+2022-08-15 12:01:39.835 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8087"]
+2022-08-15 12:01:39.846 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8087 (http) with context path ''
+2022-08-15 12:01:39.878 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 1.629 seconds (JVM running for 2.039)
+2022-08-15 12:02:49.289 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 12:02:49.295 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication on xuxunjian with PID 30512 (C:\Users\dell\IdeaProjects\k8sclient\target\classes started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 12:02:49.295 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 12:02:49.882 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8087 (http)
+2022-08-15 12:02:49.886 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8087"]
+2022-08-15 12:02:49.887 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-15 12:02:49.887 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-15 12:02:49.971 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-15 12:02:49.971 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 656 ms
+2022-08-15 12:02:50.255 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+2022-08-15 12:02:50.511 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8087"]
+2022-08-15 12:02:50.522 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8087 (http) with context path ''
+2022-08-15 12:02:50.556 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 1.535 seconds (JVM running for 1.964)
+2022-08-15 13:53:05.474 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 13:53:05.481 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication on xuxunjian with PID 13224 (C:\Users\dell\IdeaProjects\k8sclient\target\classes started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 13:53:05.482 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 13:53:05.482 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 13:53:06.066 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8180 (http)
+2022-08-15 13:53:06.070 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8180"]
+2022-08-15 13:53:06.071 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-15 13:53:06.071 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-15 13:53:06.144 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-15 13:53:06.144 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 643 ms
+2022-08-15 13:53:06.448 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 13:53:06.715 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8180"]
+2022-08-15 13:53:06.726 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8180 (http) with context path ''
+2022-08-15 13:53:06.760 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 1.552 seconds (JVM running for 2.076)
+2022-08-15 13:53:30.628 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 13:53:30.639 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication on xuxunjian with PID 30932 (C:\Users\dell\IdeaProjects\k8sclient\target\classes started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 13:53:30.639 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 13:53:30.640 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 13:53:31.328 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8180 (http)
+2022-08-15 13:53:31.333 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8180"]
+2022-08-15 13:53:31.334 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-15 13:53:31.334 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-15 13:53:31.404 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-15 13:53:31.405 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 747 ms
+2022-08-15 13:53:31.710 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 13:53:31.985 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8180"]
+2022-08-15 13:53:31.997 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8180 (http) with context path ''
+2022-08-15 13:53:32.030 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 1.609 seconds (JVM running for 1.845)
+2022-08-15 13:55:09.665 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 13:55:09.680 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication on xuxunjian with PID 7912 (C:\Users\dell\IdeaProjects\k8sclient\target\classes started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 13:55:09.687 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 13:55:09.687 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 13:55:10.366 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8180 (http)
+2022-08-15 13:55:10.371 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8180"]
+2022-08-15 13:55:10.372 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-15 13:55:10.372 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-15 13:55:10.440 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-15 13:55:10.440 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 734 ms
+2022-08-15 13:55:10.740 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 13:55:11.011 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8180"]
+2022-08-15 13:55:11.023 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8180 (http) with context path ''
+2022-08-15 13:55:11.056 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 1.598 seconds (JVM running for 1.834)
+2022-08-15 13:55:51.536 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStarting:55 -Starting ClientApplicationTests on xuxunjian with PID 32012 (started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 13:55:51.537 DEBUG[main]com.nxtele.k8s.client.ClientApplicationTests.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 13:55:51.538 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 13:55:51.590 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 13:55:52.689 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 13:55:53.504 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStarted:61 -Started ClientApplicationTests in 2.232 seconds (JVM running for 2.818)
+2022-08-15 14:30:24.432 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 14:30:24.435 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarting:55 -Starting ClientApplication on xuxunjian with PID 26292 (C:\Users\dell\IdeaProjects\k8sclient\target\classes started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 14:30:24.435 DEBUG[main]com.nxtele.k8s.client.ClientApplication.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 14:30:24.435 INFO [main]com.nxtele.k8s.client.ClientApplication.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 14:30:25.137 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.initialize:108 -Tomcat initialized with port(s): 8180 (http)
+2022-08-15 14:30:25.143 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Initializing ProtocolHandler ["http-nio-8180"]
+2022-08-15 14:30:25.143 INFO [main]org.apache.catalina.core.StandardService.log:173 -Starting service [Tomcat]
+2022-08-15 14:30:25.143 INFO [main]org.apache.catalina.core.StandardEngine.log:173 -Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-08-15 14:30:25.221 INFO [main]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring embedded WebApplicationContext
+2022-08-15 14:30:25.221 INFO [main]o.s.b.w.s.context.ServletWebServerApplicationContext.prepareWebApplicationContext:285 -Root WebApplicationContext: initialization completed in 763 ms
+2022-08-15 14:30:25.577 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 14:30:25.883 INFO [main]org.apache.coyote.http11.Http11NioProtocol.log:173 -Starting ProtocolHandler ["http-nio-8180"]
+2022-08-15 14:30:25.897 INFO [main]o.s.boot.web.embedded.tomcat.TomcatWebServer.start:220 -Tomcat started on port(s): 8180 (http) with context path ''
+2022-08-15 14:30:25.941 INFO [main]com.nxtele.k8s.client.ClientApplication.logStarted:61 -Started ClientApplication in 1.821 seconds (JVM running for 2.331)
+2022-08-15 14:32:13.596 INFO [http-nio-8180-exec-1]o.a.catalina.core.ContainerBase.[Tomcat].[localhost].[/].log:173 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-08-15 14:32:13.596 INFO [http-nio-8180-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:525 -Initializing Servlet 'dispatcherServlet'
+2022-08-15 14:32:13.599 INFO [http-nio-8180-exec-1]org.springframework.web.servlet.DispatcherServlet.initServletBean:547 -Completed initialization in 3 ms
+2022-08-15 14:34:33.154 INFO [http-nio-8180-exec-1]com.nxtele.k8s.client.service.impl.AutoDeployServiceImpl.parseFile:134 -config yaml -> apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: hello
+      tier: backend
+      track: stable
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: hello
+          image: "gcr.io/google-samples/hello-go-gke:1.0"
+          ports:
+            - name: http
+              containerPort: 80
+
+2022-08-15 14:34:33.177 INFO [http-nio-8180-exec-1]io.kubernetes.client.util.ModelMapper.getClassNamesFromPackage:448 -Loading classes from jar /C:/Users/dell/.m2/repository/io/kubernetes/client-java-api/15.0.1/client-java-api-15.0.1.jar
+2022-08-15 14:35:54.890 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStarting:55 -Starting ClientApplicationTests on xuxunjian with PID 25184 (started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 14:35:54.891 DEBUG[main]com.nxtele.k8s.client.ClientApplicationTests.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 14:35:54.891 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 14:35:54.950 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 14:35:56.021 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 14:35:56.822 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStarted:61 -Started ClientApplicationTests in 2.186 seconds (JVM running for 2.763)
+2022-08-15 19:34:48.179 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStarting:55 -Starting ClientApplicationTests on xuxunjian with PID 30072 (started by dell in C:\Users\dell\IdeaProjects\k8sclient)
+2022-08-15 19:34:48.180 DEBUG[main]com.nxtele.k8s.client.ClientApplicationTests.logStarting:56 -Running with Spring Boot v2.3.1.RELEASE, Spring v5.2.7.RELEASE
+2022-08-15 19:34:48.181 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStartupProfileInfo:655 -The following profiles are active: dev
+2022-08-15 19:34:48.247 WARN [background-preinit]o.s.http.converter.json.Jackson2ObjectMapperBuilder.warn:127 -For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2022-08-15 19:34:49.394 INFO [main]com.nxtele.k8s.client.configuration.K8sClientConfig.apiClient:36 ----k8s connected----
+ http://localhost:8080
+2022-08-15 19:34:50.274 INFO [main]com.nxtele.k8s.client.ClientApplicationTests.logStarted:61 -Started ClientApplicationTests in 2.347 seconds (JVM running for 2.962)
